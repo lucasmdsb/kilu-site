@@ -1,0 +1,62 @@
+---
+// Termos de uso (landing RF08). Provisórios até a revisão do advogado.
+import Legal from "../layouts/Legal.astro";
+import { SITE, TO_BE_DEFINED } from "../config/site";
+---
+
+<Legal
+  title="Termos de uso"
+  description={`Condições de uso do simulador ${SITE.name}: resultados em faixa, sem promessa de economia, e como somos remunerados pelos parceiros.`}
+  page="/termos"
+  ogImage="termos"
+>
+  <section data-section="service">
+    <h2>O serviço</h2>
+    <p>
+      A {SITE.name} lê a conta de luz que você envia e compara caminhos para reduzir o custo de energia: ficar
+      como está, tarifa branca, energia por assinatura e mercado livre. O serviço é gratuito para você.
+    </p>
+  </section>
+
+  <section data-section="estimates">
+    <h2>Os resultados são estimativas</h2>
+    <p>
+      O diagnóstico mostra a economia em faixa, calculada a partir dos dados da sua conta, das tarifas
+      publicadas pela Aneel e de premissas que mostramos junto do resultado. A economia real depende da
+      proposta de cada fornecedor, das bandeiras tarifárias, dos impostos e, no mercado livre, de regras que a
+      Aneel ainda vai publicar.
+    </p>
+  </section>
+
+  <section data-section="no-promise">
+    <h2>Sem promessa de economia</h2>
+    <p>
+      A {SITE.name} não promete nem assegura nenhum valor de economia. A decisão de contratar qualquer
+      fornecedor é sua, com base na proposta que ele apresentar.
+    </p>
+  </section>
+
+  <section data-section="remuneration">
+    <h2>Como somos remunerados</h2>
+    <p>
+      Somos remunerados pelos fornecedores parceiros quando você contrata um deles; isso não muda o seu preço.
+      Mostramos sempre todos os caminhos, inclusive quando o melhor é ficar como está.
+    </p>
+  </section>
+
+  <section data-section="user">
+    <h2>Suas responsabilidades</h2>
+    <p>
+      Você declara que a conta enviada é sua ou da empresa que representa, ou que tem autorização para
+      enviá-la, e que confere os dados lidos antes de ver o diagnóstico.
+    </p>
+  </section>
+
+  <section data-section="contact">
+    <h2>Contato</h2>
+    <p>
+      {SITE.controller.legalName ?? TO_BE_DEFINED}, CNPJ {SITE.controller.cnpj ?? TO_BE_DEFINED}. E-mail:{" "}
+      {SITE.controller.privacyEmail ?? TO_BE_DEFINED}.
+    </p>
+  </section>
+</Legal>

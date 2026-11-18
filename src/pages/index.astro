@@ -1,0 +1,74 @@
+---
+// Home (landing RF01–RF04).
+import Base from "../layouts/Base.astro";
+import { FAQ, HOW_IT_WORKS, PATHS_EXPLAINED, SEGMENT_PAGES } from "../content/content";
+import { SITE, appLink } from "../config/site";
+---
+
+<Base
+  title={`${SITE.name} — ${SITE.tagline}`}
+  fullTitle
+  description="Envie a conta de luz da sua empresa e veja em 1 minuto quanto pode economizar com tarifa branca, energia por assinatura ou mercado livre. Gratuito e neutro."
+  page="/"
+  ogImage="home"
+>
+  <section aria-labelledby="hero-title">
+    <h1 id="hero-title">{SITE.tagline}</h1>
+    <p class="lead">
+      Envie a conta de luz da sua empresa. A gente lê, compara os 4 caminhos que existem hoje e mostra quanto
+      cada um pode economizar — inclusive quando nenhum compensa.
+    </p>
+    <p>
+      <a class="button block-mobile" href={appLink("/simulador")} data-app-link>
+        Enviar minha conta (PDF ou foto)
+      </a>
+    </p>
+    <p class="muted small">É gratuito. Somos pagos pelos fornecedores parceiros, não por você.</p>
+  </section>
+
+  <section aria-labelledby="how-title">
+    <h2 id="how-title">Como funciona</h2>
+    <ol class="steps grid cols-3">
+      {HOW_IT_WORKS.map((step, i) => (
+        <li class="card">
+          <p class="step-label">Passo {i + 1}</p>
+          <h3>{step.title}</h3>
+          <p class="muted small">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section aria-labelledby="paths-title">
+    <h2 id="paths-title">Os 4 caminhos que comparamos</h2>
+    <div class="grid cols-2">
+      {PATHS_EXPLAINED.map((path) => (
+        <div class="card">
+          <h3>{path.title}</h3>
+          <p class="muted small">{path.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section aria-labelledby="segments-title">
+    <h2 id="segments-title">Feito para pequenos negócios</h2>
+    <ul class="chips">
+      {SEGMENT_PAGES.map((s) => (
+        <li>
+          <a href={`/energia-para/${s.slug}`}>Energia para {s.plural}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="faq-title">
+    <h2 id="faq-title">Perguntas frequentes</h2>
+    {FAQ.map((item) => (
+      <details>
+        <summary>{item.question}</summary>
+        <p class="muted">{item.answer}</p>
+      </details>
+    ))}
+  </section>
+</Base>

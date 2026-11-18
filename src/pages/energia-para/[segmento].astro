@@ -1,0 +1,66 @@
+---
+// Páginas de segmento (landing RF05, RF06): uma por segmento, geradas no build.
+import Base from "../../layouts/Base.astro";
+import { PATHS_EXPLAINED, SEGMENT_PAGES, type SegmentPage } from "../../content/content";
+import { appLink } from "../../config/site";
+
+export function getStaticPaths() {
+  return SEGMENT_PAGES.map((page) => ({ params: { segmento: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: SegmentPage };
+const simulator = appLink(`/simulador?segmento=${page.slug}`);
+---
+
+<Base
+  title={page.title}
+  description={page.description}
+  page={`/energia-para/${page.slug}`}
+  ogImage={page.slug}
+>
+  <div class="narrow">
+    <section aria-labelledby="segment-title">
+      <h1 id="segment-title">{page.title}</h1>
+      <p class="lead">{page.intro}</p>
+      <p>
+        <a class="button block-mobile" href={simulator} data-app-link>
+          Ver o diagnóstico da minha {page.name}
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="equipment-title">
+      <h2 id="equipment-title">O que mais gasta energia numa {page.name}</h2>
+      <ul>
+        {page.equipment.map((e) => (
+          <li>{e}</li>
+        ))}
+      </ul>
+      <p class="muted">{page.peak}</p>
+    </section>
+
+    <section aria-labelledby="paths-title">
+      <h2 id="paths-title">Os 4 caminhos para a sua {page.name}</h2>
+      <ul>
+        {PATHS_EXPLAINED.map((p) => (
+          <li>
+            <strong>{p.title}:</strong> <span class="muted">{p.text}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="tip">{page.tip}</p>
+    </section>
+
+    <section>
+      <p class="muted">
+        Envie a conta de luz da sua {page.name} e veja em 1 minuto a economia de cada caminho, em faixa e com
+        as premissas abertas. É gratuito.
+      </p>
+      <p>
+        <a class="button outline block-mobile" href={simulator} data-app-link>
+          Enviar a conta da minha {page.name}
+        </a>
+      </p>
+    </section>
+  </div>
+</Base>

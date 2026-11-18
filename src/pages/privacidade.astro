@@ -1,0 +1,104 @@
+---
+// Política de privacidade (landing RF07). Provisória até a revisão do advogado.
+import Legal from "../layouts/Legal.astro";
+import { SITE, TO_BE_DEFINED, appLink } from "../config/site";
+
+const c = SITE.controller;
+const email = c.privacyEmail ?? TO_BE_DEFINED;
+---
+
+<Legal
+  title="Política de privacidade"
+  description={`Como a ${SITE.name} trata os dados da sua conta de luz e do seu contato: o que coletamos, por quanto tempo guardamos e como apagar tudo.`}
+  page="/privacidade"
+  ogImage="privacidade"
+>
+  <section data-section="controller">
+    <h2>Quem cuida dos seus dados</h2>
+    <p>
+      Controlador: {c.legalName ?? TO_BE_DEFINED}, CNPJ {c.cnpj ?? TO_BE_DEFINED}. Contato para assuntos de
+      privacidade: {email}.
+    </p>
+  </section>
+
+  <section data-section="data">
+    <h2>Dados que coletamos</h2>
+    <ul>
+      <li>O arquivo da conta de luz (PDF ou foto) que você envia.</li>
+      <li>
+        Os dados lidos da conta: distribuidora, unidade consumidora, CNPJ ou CPF do titular, classe, histórico
+        de consumo, valores e tarifas.
+      </li>
+      <li>Se você deixar contato: nome, WhatsApp, e-mail (opcional) e segmento do negócio.</li>
+      <li>Contagem anônima de visitas, sem cookies e sem identificar você.</li>
+    </ul>
+  </section>
+
+  <section data-section="purposes">
+    <h2>Para que usamos</h2>
+    <ul>
+      <li>Calcular o diagnóstico de economia da sua conta.</li>
+      <li>Entrar em contato e enviar as propostas que você pediu.</li>
+      <li>
+        Avisar quando a energia por assinatura chegar à sua região ou quando o mercado livre abrir para você.
+      </li>
+    </ul>
+  </section>
+
+  <section data-section="consents">
+    <h2>Consentimentos</h2>
+    <p>
+      Pedimos consentimentos separados, que você marca um a um: receber contato; compartilhar seus dados com o
+      fornecedor parceiro do caminho escolhido; e entrar na lista de espera do mercado livre. Você pode
+      retirar qualquer um deles a qualquer momento.
+    </p>
+  </section>
+
+  <section data-section="sharing">
+    <h2>Compartilhamento com parceiros</h2>
+    <p>
+      Só compartilhamos seus dados com um fornecedor parceiro (usina de energia por assinatura ou
+      comercializadora de mercado livre) se você der esse consentimento, e só com o parceiro do caminho que
+      você escolheu. Somos remunerados por esses parceiros quando você contrata um deles; isso não muda o seu
+      preço.
+    </p>
+  </section>
+
+  <section data-section="retention">
+    <h2>Por quanto tempo guardamos</h2>
+    <ul>
+      <li>O arquivo da conta é apagado em até 30 dias.</li>
+      <li>Se você não deixar contato, os dados pessoais lidos da conta também são apagados em 30 dias.</li>
+      <li>
+        Se você deixar contato, guardamos seus dados enquanto houver interação; depois de 24 meses sem nenhuma
+        interação, eles são apagados.
+      </li>
+      <li>
+        Depois de apagados, ficam só números anônimos (distribuidora, classe, faixa de consumo) para
+        estatística.
+      </li>
+    </ul>
+  </section>
+
+  <section data-section="international">
+    <h2>Transferência internacional</h2>
+    <p>
+      Nossos servidores ficam na DigitalOcean, nos Estados Unidos, e a leitura automática da conta é feita
+      pela Anthropic, também nos Estados Unidos. Por isso seus dados são transferidos para fora do Brasil, com
+      as salvaguardas contratuais desses fornecedores.
+    </p>
+  </section>
+
+  <section data-section="rights">
+    <h2>Seus direitos</h2>
+    <p>
+      Você pode ver seus dados, retirar consentimentos ou pedir que tudo seja apagado pelo link pessoal que
+      aparece depois de enviar o contato no{" "}
+      <a href={appLink("/simulador")} data-app-link>
+        simulador
+      </a>
+      . Também pode pedir pelo e-mail {email}. Esses direitos são garantidos pela Lei Geral de Proteção de
+      Dados (Lei nº 13.709/2018).
+    </p>
+  </section>
+</Legal>

@@ -1,0 +1,31 @@
+---
+// Páginas legais: versão, data e aviso de texto provisório (landing RF09).
+import Base from "./Base.astro";
+import { SITE } from "../config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  page: string;
+  ogImage: string;
+}
+const { title, description, page, ogImage } = Astro.props;
+const [y, m, d] = SITE.legal.updatedAt.split("-");
+---
+
+<Base title={title} description={description} page={page} ogImage={ogImage}>
+  <article class="narrow">
+    <section>
+      <h1>{title}</h1>
+      <p class="muted small">
+        Versão {SITE.legal.version} · atualizada em {d}/{m}/{y}
+      </p>
+      {SITE.legal.provisional && (
+        <p class="note" role="note">
+          Texto provisório, em revisão jurídica. A versão final substituirá esta antes do lançamento.
+        </p>
+      )}
+    </section>
+    <slot />
+  </article>
+</Base>

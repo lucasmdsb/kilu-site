@@ -1,0 +1,107 @@
+---
+// Layout das páginas públicas: metadados de SEO (RF15), cabeçalho/rodapé e um script inline mínimo
+// que conta a visita sem identificar ninguém (RF13, RF14) e repassa a indicação ?ref= para o sistema (RF10).
+import "../styles/global.css";
+import { SITE, appLink } from "../config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  page: string; // caminho público contado (ex.: "/energia-para/padarias")
+  ogImage: string; // nome da imagem em /og/<ogImage>.png
+  fullTitle?: boolean;
+}
+
+const { title, description, page, ogImage, fullTitle = false } = Astro.props;
+const pageTitle = fullTitle ? title : `${title} | ${SITE.name}`;
+const canonical = new URL(page === "/" ? "/" : page, Astro.site).toString();
+const image = new URL(`/og/${ogImage}.png`, Astro.site).toString();
+const apiUrl = SITE.apiUrl;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a href="#conteudo" class="sr-only">
+      Pular para o conteúdo
+    </a>
+    <header class="site">
+      <div class="container">
+        <a href="/" class="brand">
+          {SITE.name}
+        </a>
+        <a href={appLink("/simulador")} data-app-link>
+          Enviar minha conta
+        </a>
+      </div>
+    </header>
+    <main id="conteudo" class="container">
+      <slot />
+    </main>
+    <footer class="site">
+      <div class="container">
+        <p>© {SITE.name}. Somos remunerados pelos fornecedores parceiros; isso não muda o seu preço.</p>
+        <nav aria-label="Rodapé">
+          <a href="/privacidade">Privacidade</a>
+          <a href="/termos">Termos de uso</a>
+        </nav>
+      </div>
+    </footer>
+    <style is:global>
+      .sr-only:not(:focus) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+    </style>
+    <script is:inline define:vars={{ apiUrl, page }}>
+      (function () {
+        var valid = /^[a-z0-9-]{3,32}$/;
+        var ref = (new URLSearchParams(location.search).get("ref") || "").trim().toLowerCase();
+        try {
+          if (valid.test(ref)) sessionStorage.setItem("kilu.ref", ref);
+          ref = sessionStorage.getItem("kilu.ref") || "";
+        } catch (e) {
+          ref = valid.test(ref) ? ref : "";
+        }
+        if (ref) {
+          document.querySelectorAll("a[data-app-link]").forEach(function (a) {
+            var url = new URL(a.href);
+            url.searchParams.set("ref", ref);
+            a.href = url.toString();
+          });
+        }
+        try {
+          fetch(apiUrl + "/api/v1/metrics/events", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event: "visit", page: page }),
+            credentials: "omit",
+            keepalive: true,
+          }).catch(function () {});
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>
