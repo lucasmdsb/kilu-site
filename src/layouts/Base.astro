@@ -24,6 +24,8 @@ const apiUrl = SITE.apiUrl;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- O site estático não controla cabeçalhos HTTP no App Platform; o que dá para pôr em <meta> fica aqui (infrastructure RNF03). -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
