@@ -26,6 +26,7 @@ const apiUrl = SITE.apiUrl;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- O site estático não controla cabeçalhos HTTP no App Platform; o que dá para pôr em <meta> fica aqui (infrastructure RNF03). -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#faf8f3" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -48,9 +49,10 @@ const apiUrl = SITE.apiUrl;
     <header class="site">
       <div class="container">
         <a href="/" class="brand">
-          {SITE.name}
+          {SITE.name.slice(0, 2)}
+          <span>{SITE.name.slice(2)}</span>
         </a>
-        <a href={appLink("/simulador")} data-app-link>
+        <a class="header-cta" href={appLink("/simulador")} data-app-link>
           Enviar minha conta
         </a>
       </div>

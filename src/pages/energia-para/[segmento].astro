@@ -3,6 +3,7 @@
 import Base from "../../layouts/Base.astro";
 import { PATHS_EXPLAINED, SEGMENT_PAGES, type SegmentPage } from "../../content/content";
 import { appLink } from "../../config/site";
+import Icon from "../../components/Icon.astro";
 
 export function getStaticPaths() {
   return SEGMENT_PAGES.map((page) => ({ params: { segmento: page.slug }, props: { page } }));
@@ -19,21 +20,27 @@ const simulator = appLink(`/simulador?segmento=${page.slug}`);
   ogImage={page.slug}
 >
   <div class="narrow">
-    <section aria-labelledby="segment-title">
+    <section class="hero" aria-labelledby="segment-title">
       <h1 id="segment-title">{page.title}</h1>
       <p class="lead">{page.intro}</p>
       <p>
         <a class="button block-mobile" href={simulator} data-app-link>
           Ver o diagnóstico da minha {page.name}
+          <Icon name="arrow" />
         </a>
       </p>
     </section>
 
     <section aria-labelledby="equipment-title">
       <h2 id="equipment-title">O que mais gasta energia numa {page.name}</h2>
-      <ul>
+      <ul class="list-cards">
         {page.equipment.map((e) => (
-          <li>{e}</li>
+          <li>
+            <span>
+              <Icon name="plug" />
+            </span>
+            <span>{e}</span>
+          </li>
         ))}
       </ul>
       <p class="muted">{page.peak}</p>
@@ -41,17 +48,25 @@ const simulator = appLink(`/simulador?segmento=${page.slug}`);
 
     <section aria-labelledby="paths-title">
       <h2 id="paths-title">Os 4 caminhos para a sua {page.name}</h2>
-      <ul>
+      <ul class="list-cards">
         {PATHS_EXPLAINED.map((p) => (
           <li>
-            <strong>{p.title}:</strong> <span class="muted">{p.text}</span>
+            <span>
+              <Icon name="check" />
+            </span>
+            <span>
+              <strong>{p.title}:</strong> <span class="muted">{p.text}</span>
+            </span>
           </li>
         ))}
       </ul>
-      <p class="tip">{page.tip}</p>
+      <p class="tip">
+        <Icon name="info" />
+        <span>{page.tip}</span>
+      </p>
     </section>
 
-    <section>
+    <section class="cta-band">
       <p class="muted">
         Envie a conta de luz da sua {page.name} e veja em 1 minuto a economia de cada caminho, em faixa e com
         as premissas abertas. É gratuito.

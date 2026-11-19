@@ -1,8 +1,17 @@
 ---
 // Home (landing RF01–RF04).
 import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
 import { FAQ, HOW_IT_WORKS, PATHS_EXPLAINED, SEGMENT_PAGES } from "../content/content";
 import { SITE, appLink } from "../config/site";
+
+// Destaque visual nas últimas palavras do título (o texto não muda).
+const words = SITE.tagline.split(" ");
+const taglineStart = words.slice(0, -3).join(" ");
+const taglineEnd = words.slice(-3).join(" ");
+
+const STEP_ICONS = ["upload", "check", "chart"] as const;
+const PATH_ICONS = ["equal", "clock", "sun", "scale"] as const;
 ---
 
 <Base
@@ -12,25 +21,57 @@ import { SITE, appLink } from "../config/site";
   page="/"
   ogImage="home"
 >
-  <section aria-labelledby="hero-title">
-    <h1 id="hero-title">{SITE.tagline}</h1>
-    <p class="lead">
-      Envie a conta de luz da sua empresa. A gente lê, compara os 4 caminhos que existem hoje e mostra quanto
-      cada um pode economizar — inclusive quando nenhum compensa.
-    </p>
-    <p>
-      <a class="button block-mobile" href={appLink("/simulador")} data-app-link>
-        Enviar minha conta (PDF ou foto)
-      </a>
-    </p>
-    <p class="muted small">É gratuito. Somos pagos pelos fornecedores parceiros, não por você.</p>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-grid">
+      <div>
+        <h1 id="hero-title">
+          {taglineStart} <mark>{taglineEnd}</mark>
+        </h1>
+        <p class="lead">
+          Envie a conta de luz da sua empresa. A gente lê, compara os 4 caminhos que existem hoje e mostra
+          quanto cada um pode economizar — inclusive quando nenhum compensa.
+        </p>
+        <p class="actions">
+          <a class="button block-mobile" href={appLink("/simulador")} data-app-link>
+            Enviar minha conta (PDF ou foto)
+            <Icon name="arrow" />
+          </a>
+        </p>
+        <p class="muted small">É gratuito. Somos pagos pelos fornecedores parceiros, não por você.</p>
+      </div>
+
+      <div class="bill" aria-hidden="true">
+        <p class="bill-head">
+          <span>Seu diagnóstico</span>
+          <span>R$/mês</span>
+        </p>
+        <ul>
+          {PATHS_EXPLAINED.map((path) => (
+            <li>
+              <span>{path.title}</span>
+              <span>· · ·</span>
+            </li>
+          ))}
+        </ul>
+        <p class="bill-foot">
+          <mark>Faixa calculada a partir da sua conta</mark>
+        </p>
+      </div>
+    </div>
   </section>
 
   <section aria-labelledby="how-title">
-    <h2 id="how-title">Como funciona</h2>
+    <div class="section-head">
+      <h2 id="how-title">
+        Como <mark>funciona</mark>
+      </h2>
+    </div>
     <ol class="steps grid cols-3">
       {HOW_IT_WORKS.map((step, i) => (
         <li class="card">
+          <span class="icon">
+            <Icon name={STEP_ICONS[i]} />
+          </span>
           <p class="step-label">Passo {i + 1}</p>
           <h3>{step.title}</h3>
           <p class="muted small">{step.text}</p>
@@ -40,10 +81,17 @@ import { SITE, appLink } from "../config/site";
   </section>
 
   <section aria-labelledby="paths-title">
-    <h2 id="paths-title">Os 4 caminhos que comparamos</h2>
+    <div class="section-head">
+      <h2 id="paths-title">
+        Os 4 caminhos que <mark>comparamos</mark>
+      </h2>
+    </div>
     <div class="grid cols-2">
-      {PATHS_EXPLAINED.map((path) => (
+      {PATHS_EXPLAINED.map((path, i) => (
         <div class="card">
+          <span class="icon">
+            <Icon name={PATH_ICONS[i]} />
+          </span>
           <h3>{path.title}</h3>
           <p class="muted small">{path.text}</p>
         </div>
@@ -52,23 +100,36 @@ import { SITE, appLink } from "../config/site";
   </section>
 
   <section aria-labelledby="segments-title">
-    <h2 id="segments-title">Feito para pequenos negócios</h2>
+    <div class="section-head">
+      <h2 id="segments-title">
+        Feito para <mark>pequenos negócios</mark>
+      </h2>
+    </div>
     <ul class="chips">
       {SEGMENT_PAGES.map((s) => (
         <li>
-          <a href={`/energia-para/${s.slug}`}>Energia para {s.plural}</a>
+          <a href={`/energia-para/${s.slug}`}>
+            Energia para {s.plural}
+            <Icon name="arrow" />
+          </a>
         </li>
       ))}
     </ul>
   </section>
 
   <section aria-labelledby="faq-title">
-    <h2 id="faq-title">Perguntas frequentes</h2>
-    {FAQ.map((item) => (
-      <details>
-        <summary>{item.question}</summary>
-        <p class="muted">{item.answer}</p>
-      </details>
-    ))}
+    <div class="section-head">
+      <h2 id="faq-title">
+        Perguntas <mark>frequentes</mark>
+      </h2>
+    </div>
+    <div class="faq">
+      {FAQ.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p class="muted">{item.answer}</p>
+        </details>
+      ))}
+    </div>
   </section>
 </Base>
